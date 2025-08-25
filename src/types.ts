@@ -11,3 +11,5 @@ export type Product = {
 	stock: number,
 	createdAt: Date;
 }
+
+export type ProductsByCategory = Record<string, Product>; 
