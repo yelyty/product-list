@@ -94,7 +94,7 @@ const ProductCard = ({
         </Button>
       </CardFooter>
       <Button
-        className="absolute bottom-3 right-3 rounded-full p-2 bg-white shadow hover:bg-slate-100"
+        className="absolute bottom-6 right-6 rounded-full p-2 bg-white shadow hover:bg-slate-100"
         onClick={() => setIsLiked(!isLiked)}
       >
         <HeartIcon

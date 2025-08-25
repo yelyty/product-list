@@ -1,9 +1,10 @@
 import ProductsGrid from "./ProductsGrid";
 import CatalogToolbar from "./CatalogToolbarWrapper";
-import SortBy from "./SortBy";
-import SearchInput from "./SearchInput";
-import Sidebar from "./Sidebar";
+
 import { useProducts } from "@/hooks/useProducts";
+import SearchInput from "@/components/SearchInput";
+import SortBy from "@/components/SortBy";
+import Sidebar from "@/components/Sidebar";
 
 const Catalog = () => {
   const {

@@ -35,6 +35,7 @@ const Sidebar = ({
 
   const clearFilters = () => {
     setExcludedCategories([]);
+    setPriceRange([MIN_PRICE, MAX_PRICE]);
   };
 
   return (
