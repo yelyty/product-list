@@ -1,12 +1,14 @@
 import { Checkbox } from "@/components/ui/checkbox";
 import { DualRangeSlider } from "@/components/DualRangeSlider";
 import { useState } from "react";
-import { useProducts } from "@/hooks/useProducts";
 import { Button } from "@/components/ui/button";
 
-const Sidebar = () => {
+type SidebarProps = {
+  categories: string[];
+};
+
+const Sidebar = ({ categories }: SidebarProps) => {
   const [values, setValues] = useState([0, 100]);
-  const { categories } = useProducts();
 
   const clearFilters = () => {
     return null;

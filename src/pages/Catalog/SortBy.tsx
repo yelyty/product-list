@@ -15,7 +15,6 @@ const SortBy = () => {
       <SelectContent>
         <SelectItem value="low-to-high">Low to High</SelectItem>
         <SelectItem value="high-to-low">High to Low</SelectItem>
-        <SelectItem value="top-rated">Top-Rated</SelectItem>
       </SelectContent>
     </Select>
   );

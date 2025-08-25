@@ -23,7 +23,7 @@ const ProductsGrid = ({ isLoading, products }: ProductGridProps) => {
 
   return (
     <section className="grid grid-cols-3 gap-3 w-full">
-      {allProducts.map(({ id, title, price, images }) => {
+      {allProducts.map(({ id, title, price, images, rating }) => {
         return (
           <ProductCard
             key={id}
@@ -31,6 +31,7 @@ const ProductsGrid = ({ isLoading, products }: ProductGridProps) => {
             title={title}
             price={price}
             images={images}
+            rating={rating}
           />
         );
       })}

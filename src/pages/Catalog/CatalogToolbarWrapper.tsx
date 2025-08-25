@@ -1,7 +1,7 @@
 import type { ReactNode } from "react";
 
 type CatalogToolbarWrapperProps = {
-  children: ReactNode[];
+  children: ReactNode;
 };
 
 const CatalogToolbarWrapper = ({ children }: CatalogToolbarWrapperProps) => {

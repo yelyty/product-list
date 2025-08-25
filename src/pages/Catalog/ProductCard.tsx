@@ -1,4 +1,4 @@
-import { Image as ImageIcon } from "lucide-react";
+import { Image as ImageIcon, Star as StarIcon } from "lucide-react";
 import { Button } from "@/components/ui/button";
 import {
   Card,
@@ -11,9 +11,18 @@ import type { Product } from "@/types";
 import { useNavigate } from "react-router";
 import { useState } from "react";
 
-type ProductCardProps = Pick<Product, "id" | "title" | "price" | "images">;
+type ProductCardProps = Pick<
+  Product,
+  "id" | "title" | "price" | "images" | "rating"
+>;
 
-const ProductCard = ({ id, images, title, price }: ProductCardProps) => {
+const ProductCard = ({
+  id,
+  images,
+  title,
+  price,
+  rating,
+}: ProductCardProps) => {
   const [imgError, setImgError] = useState(false);
   const navigate = useNavigate();
 
@@ -43,8 +52,12 @@ const ProductCard = ({ id, images, title, price }: ProductCardProps) => {
           {title}
         </CardTitle>
         <p className="text-sm text-muted-foreground mt-1">{price}€</p>
+        <div className="flex flex-row items-center gap-1 text-gray-600 mt-3">
+          <p className="text-sm font-medium">{rating}</p>
+          <StarIcon className="h-4 w-4 text-yellow-500 fill-yellow-500" />
+        </div>
       </CardContent>
-      <CardFooter className="p-4 pt-0">
+      <CardFooter className="pt-0">
         <Button className="pointer" onClick={openProductDetails}>
           View Details
         </Button>

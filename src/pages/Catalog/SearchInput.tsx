@@ -13,7 +13,7 @@ const SearchInput = ({ searchQuery, setSearchQuery }: SearchInputProps) => {
     setSearchQuery(event.target.value);
   };
   return (
-    <div className="relative w-full">
+    <div className="flex-1 relative">
       <SearchIcon
         className="pointer-events-none absolute left-3 top-1/2 -translate-y-1/2 h-4 w-4 text-muted-foreground"
         aria-hidden

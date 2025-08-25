@@ -28,7 +28,7 @@ const Catalog = () => {
         </div>
       </CatalogToolbar>
       <div className="flex flex-row gap-4">
-        <Sidebar />
+        <Sidebar categories={categories} />
         <ProductsGrid products={productsByCategory} isLoading={isLoading} />
       </div>
     </div>
