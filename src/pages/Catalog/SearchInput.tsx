@@ -1,8 +1,17 @@
+import type { ChangeEvent } from "react";
 import { Search as SearchIcon } from "lucide-react";
+
 import { Input } from "@/components/ui/input";
 
-const SearchInput = () => {
-  const handleChange = () => null;
+type SearchInputProps = {
+  searchQuery: string;
+  setSearchQuery: (value: string) => void;
+};
+
+const SearchInput = ({ searchQuery, setSearchQuery }: SearchInputProps) => {
+  const handleChange = (event: ChangeEvent<HTMLInputElement>) => {
+    setSearchQuery(event.target.value);
+  };
   return (
     <div className="relative w-full">
       <SearchIcon
@@ -12,7 +21,7 @@ const SearchInput = () => {
       <Input
         type="search"
         role="searchbox"
-        value={""}
+        value={searchQuery}
         onChange={handleChange}
         placeholder="Search products"
         className="pl-9 pr-9"

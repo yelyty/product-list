@@ -1,63 +1,35 @@
-import { useProducts } from "@/hooks/useProducts";
 import ProductsGrid from "./ProductsGrid";
 import CatalogToolbar from "./CatalogToolbarWrapper";
 import SortBy from "./SortBy";
 import SearchInput from "./SearchInput";
-import { Checkbox } from "@/components/ui/checkbox";
-import { DualRangeSlider } from "@/components/DualRangeSlider";
-import { useState } from "react";
+import Sidebar from "./Sidebar";
+import { useProducts } from "@/hooks/useProducts";
 
 const Catalog = () => {
-  const { categories } = useProducts();
-  const [values, setValues] = useState([0, 100]);
+  const {
+    isLoading,
+    productsByCategory,
+    categories,
+    searchQuery,
+    setSearchQuery,
+  } = useProducts();
 
   return (
     <div>
       <CatalogToolbar>
         <div className="flex-1">
-          <SearchInput />
+          <SearchInput
+            searchQuery={searchQuery}
+            setSearchQuery={setSearchQuery}
+          />
         </div>
         <div className="flex items-center gap-3">
           <SortBy />
         </div>
       </CatalogToolbar>
-      <div className="flex flex-row">
-        <aside className="w-64 shrink-0 p-4">
-          <div className="space-y-10">
-            <h3 className="text-sm font-semibold text-slate-700">
-              Price range
-            </h3>
-            <DualRangeSlider
-              label={(value) => value}
-              labelPosition="bottom"
-              value={values}
-              onValueChange={setValues}
-              min={0}
-              max={100}
-              step={1}
-            />
-            <h3 className="text-sm font-semibold text-slate-700">Categories</h3>
-            <div className="space-y-2">
-              {categories.map((category) => (
-                <label
-                  key={category}
-                  htmlFor={category}
-                  className="flex cursor-pointer items-center gap-2 rounded-md px-2 py-1 hover:bg-slate-50"
-                >
-                  <Checkbox
-                    id={category}
-                    checked={true}
-                    onCheckedChange={() => {}}
-                  />
-                  <span className="text-sm text-slate-600 capitalize">
-                    {category}
-                  </span>
-                </label>
-              ))}
-            </div>
-          </div>
-        </aside>
-        <ProductsGrid />
+      <div className="flex flex-row gap-4">
+        <Sidebar />
+        <ProductsGrid products={productsByCategory} isLoading={isLoading} />
       </div>
     </div>
   );
