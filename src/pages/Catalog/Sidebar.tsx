@@ -38,7 +38,7 @@ const Sidebar = ({
   };
 
   return (
-    <aside className="w-64 shrink-0">
+    <aside className="w-full md:w-64 md:shrink-0">
       <div className="rounded-xl border bg-white px-4 py-4 shadow-sm mb-6">
         <div className="mb-2 flex items-center justify-between">
           <h2 className="text-sm font-semibold text-slate-700">Filters</h2>

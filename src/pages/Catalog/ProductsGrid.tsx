@@ -20,7 +20,7 @@ const ProductsGrid = ({ isLoading, products }: ProductGridProps) => {
   }
 
   return (
-    <section className="grid grid-cols-3 gap-3 w-full">
+    <section className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-3 w-full">
       {products.map(({ id, title, price, images, rating }) => {
         return (
           <ProductCard
