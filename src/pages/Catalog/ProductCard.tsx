@@ -1,4 +1,8 @@
-import { Image as ImageIcon, Star as StarIcon } from "lucide-react";
+import {
+  Image as ImageIcon,
+  Star as StarIcon,
+  Heart as HeartIcon,
+} from "lucide-react";
 import { Button } from "@/components/ui/button";
 import {
   Card,
@@ -9,7 +13,7 @@ import {
 } from "@/components/ui/card";
 import type { Product } from "@/types";
 import { useNavigate } from "react-router";
-import { useState } from "react";
+import { useEffect, useState } from "react";
 
 type ProductCardProps = Pick<
   Product,
@@ -26,13 +30,40 @@ const ProductCard = ({
   const [imgError, setImgError] = useState(false);
   const navigate = useNavigate();
 
+  const [isLiked, setIsLiked] = useState<boolean>(() => {
+    try {
+      const raw = localStorage.getItem("likedProducts");
+      if (!raw) return false;
+      const likedIds = JSON.parse(raw) as number[];
+      return likedIds.includes(id);
+    } catch {
+      return false;
+    }
+  });
+
   const imageUrl = !imgError && images?.[0] ? images[0] : null;
 
   const openProductDetails = () => {
     navigate(`/${id}`);
   };
+
+  useEffect(() => {
+    try {
+      const raw = localStorage.getItem("likedProducts");
+      const likedIds = raw ? (JSON.parse(raw) as number[]) ?? [] : [];
+
+      const next = isLiked
+        ? Array.from(new Set([...likedIds, id]))
+        : likedIds.filter((v) => v !== id);
+
+      localStorage.setItem("likedProducts", JSON.stringify(next));
+    } catch {
+      console.log("error");
+    }
+  }, [isLiked, id]);
+
   return (
-    <Card className="overflow-hidden hover:shadow-lg transition-shadow rounded-2xl">
+    <Card className="overflow-hidden hover:shadow-lg transition-shadow rounded-2xl relative">
       <CardHeader className="p-0">
         {imageUrl ? (
           <img
@@ -62,6 +93,16 @@ const ProductCard = ({
           View Details
         </Button>
       </CardFooter>
+      <Button
+        className="absolute bottom-3 right-3 rounded-full p-2 bg-white shadow hover:bg-slate-100"
+        onClick={() => setIsLiked(!isLiked)}
+      >
+        <HeartIcon
+          className={`h-5 w-5 ${
+            isLiked ? "text-red-500 fill-red-500" : "text-slate-600"
+          }`}
+        />
+      </Button>
     </Card>
   );
 };
