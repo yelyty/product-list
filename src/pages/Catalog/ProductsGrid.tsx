@@ -1,9 +1,9 @@
+import type { Product } from "@/types";
 import ProductCard from "./ProductCard";
-import type { ProductsByCategory } from "@/types";
 
 type ProductGridProps = {
   isLoading: boolean;
-  products: ProductsByCategory;
+  products: Product[];
 };
 
 const ProductsGrid = ({ isLoading, products }: ProductGridProps) => {
@@ -11,9 +11,7 @@ const ProductsGrid = ({ isLoading, products }: ProductGridProps) => {
     return <div>Loading...</div>;
   }
 
-  const allProducts = Object.values(products).flat();
-
-  if (allProducts.length === 0) {
+  if (products.length === 0) {
     return (
       <div className="w-full text-center text-gray-500 py-8">
         Nothing to show
@@ -23,7 +21,7 @@ const ProductsGrid = ({ isLoading, products }: ProductGridProps) => {
 
   return (
     <section className="grid grid-cols-3 gap-3 w-full">
-      {allProducts.map(({ id, title, price, images, rating }) => {
+      {products.map(({ id, title, price, images, rating }) => {
         return (
           <ProductCard
             key={id}

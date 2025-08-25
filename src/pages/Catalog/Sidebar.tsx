@@ -1,21 +1,25 @@
 import { Checkbox } from "@/components/ui/checkbox";
 import { DualRangeSlider } from "@/components/DualRangeSlider";
-import { useState } from "react";
 import { Button } from "@/components/ui/button";
 
 type SidebarProps = {
   categories: string[];
-  filteredCategories: string[];
-  setFilteredCategories: (values: string[]) => void;
+  excludedCategories: string[];
+  setExcludedCategories: (values: string[]) => void;
+  setPriceRange: (values: number[]) => void;
+  priceRange: number[];
 };
+
+const MIN_PRICE = 0;
+const MAX_PRICE = 1000;
 
 const Sidebar = ({
   categories,
-  filteredCategories,
-  setFilteredCategories,
+  excludedCategories,
+  setExcludedCategories,
+  setPriceRange,
+  priceRange,
 }: SidebarProps) => {
-  const [values, setValues] = useState([0, 100]);
-
   const toggleCategory = (
     category: string,
     checked: boolean | "indeterminate"
@@ -23,14 +27,14 @@ const Sidebar = ({
     const isChecked = checked === true;
 
     const next = isChecked
-      ? filteredCategories.filter((c) => c !== category)
-      : [...filteredCategories, category];
+      ? excludedCategories.filter((c) => c !== category)
+      : [...excludedCategories, category];
 
-    setFilteredCategories(next);
+    setExcludedCategories(next);
   };
 
   const clearFilters = () => {
-    setFilteredCategories([]);
+    setExcludedCategories([]);
   };
 
   return (
@@ -51,10 +55,10 @@ const Sidebar = ({
           <DualRangeSlider
             label={(value) => `€${value}`}
             labelPosition="bottom"
-            value={values}
-            onValueChange={setValues}
-            min={0}
-            max={100}
+            value={priceRange}
+            onValueChange={setPriceRange}
+            min={MIN_PRICE}
+            max={MAX_PRICE}
             step={1}
           />
         </section>
@@ -68,7 +72,7 @@ const Sidebar = ({
           </h3>
           <div className="space-y-1.5">
             {categories.map((category) => {
-              const isFilteredOut = filteredCategories.includes(category);
+              const isFilteredOut = excludedCategories.includes(category);
               return (
                 <label
                   key={category}

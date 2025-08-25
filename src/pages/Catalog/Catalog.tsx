@@ -8,14 +8,16 @@ import { useProducts } from "@/hooks/useProducts";
 const Catalog = () => {
   const {
     isLoading,
-    productsByCategory,
+    products,
     categories,
     searchQuery,
     setSearchQuery,
     sortValue,
     setSortValue,
-    filteredCategories,
-    setFilteredCategories,
+    excludedCategories,
+    setExcludedCategories,
+    setPriceRange,
+    priceRange,
   } = useProducts();
 
   return (
@@ -34,10 +36,12 @@ const Catalog = () => {
       <div className="flex flex-row gap-4">
         <Sidebar
           categories={categories}
-          setFilteredCategories={setFilteredCategories}
-          filteredCategories={filteredCategories}
+          setExcludedCategories={setExcludedCategories}
+          excludedCategories={excludedCategories}
+          setPriceRange={setPriceRange}
+          priceRange={priceRange}
         />
-        <ProductsGrid products={productsByCategory} isLoading={isLoading} />
+        <ProductsGrid products={products} isLoading={isLoading} />
       </div>
     </div>
   );
