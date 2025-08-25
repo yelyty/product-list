@@ -12,6 +12,10 @@ const Catalog = () => {
     categories,
     searchQuery,
     setSearchQuery,
+    sortValue,
+    setSortValue,
+    filteredCategories,
+    setFilteredCategories,
   } = useProducts();
 
   return (
@@ -24,11 +28,15 @@ const Catalog = () => {
           />
         </div>
         <div className="flex items-center gap-3">
-          <SortBy />
+          <SortBy sortValue={sortValue} setSortValue={setSortValue} />
         </div>
       </CatalogToolbar>
       <div className="flex flex-row gap-4">
-        <Sidebar categories={categories} />
+        <Sidebar
+          categories={categories}
+          setFilteredCategories={setFilteredCategories}
+          filteredCategories={filteredCategories}
+        />
         <ProductsGrid products={productsByCategory} isLoading={isLoading} />
       </div>
     </div>

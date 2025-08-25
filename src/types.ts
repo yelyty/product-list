@@ -12,4 +12,6 @@ export type Product = {
 	createdAt: Date;
 }
 
-export type ProductsByCategory = Record<string, Product[]>; 
+export type ProductsByCategory = Record<string, Product[]>;
+
+export type SortValue = "low-to-high" | "high-to-low" | null;

@@ -1,5 +1,5 @@
 import { useEffect, useMemo, useState } from "react";
-import type { Product, ProductsByCategory } from "@/types";
+import type { Product, ProductsByCategory, SortValue } from "@/types";
 import useDebounce from "./useDebounce";
 
 const groupProductsByCategory = (products: Product[]): ProductsByCategory => {
@@ -19,6 +19,9 @@ export function useProducts() {
 	const [isLoading, setIsLoading] = useState<boolean>(false);
 	const [products, setProducts] = useState<Product[]>([]);
 	const [searchQuery, setSearchQuery] = useState<string>("");
+	const [filteredCategories, setFilteredCategories] = useState<string[]>([]);
+
+	const [sortValue, setSortValue] = useState<SortValue>(null);
 
 	useEffect(() => {
 		const fetchData = async () => {
@@ -43,24 +46,36 @@ export function useProducts() {
 
 		return Object.entries(grouped).reduce<ProductsByCategory>(
 			(acc, [category, items]) => {
-				const filteredItems = items.filter((p) =>
+				if (filteredCategories.includes(category)) return acc;
+				const filtered = items.filter((p) =>
 					p.title.toLowerCase().includes(debouncedSearch.toLowerCase())
 				);
 
-				if (filteredItems.length > 0) {
-					acc[category] = filteredItems;
-				}
+				if (filtered.length === 0) return acc;
 
+				const sorted =
+					sortValue === "low-to-high"
+						? [...filtered].sort(
+							(a, b) => (a.price ?? Infinity) - (b.price ?? Infinity)
+						)
+						: sortValue === "high-to-low"
+							? [...filtered].sort(
+								(a, b) => (b.price ?? -Infinity) - (a.price ?? -Infinity)
+							)
+							: filtered;
+
+				acc[category] = sorted;
 				return acc;
 			},
 			{}
 		);
-	}, [products, debouncedSearch]);
+	}, [products, debouncedSearch, sortValue, filteredCategories]);
 
 	const categories = useMemo(
-		() => Object.keys(productsByCategory),
-		[productsByCategory]
+		() => Array.from(new Set(products.map((p) => p.category))),
+		[products]
 	);
+
 	return {
 		isLoading,
 		productsByCategory,
@@ -68,5 +83,13 @@ export function useProducts() {
 		// Search
 		searchQuery,
 		setSearchQuery,
+
+		// Sort
+		sortValue,
+		setSortValue,
+
+		// Categories
+		filteredCategories,
+		setFilteredCategories,
 	};
 }

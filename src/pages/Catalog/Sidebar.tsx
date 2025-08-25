@@ -5,13 +5,32 @@ import { Button } from "@/components/ui/button";
 
 type SidebarProps = {
   categories: string[];
+  filteredCategories: string[];
+  setFilteredCategories: (values: string[]) => void;
 };
 
-const Sidebar = ({ categories }: SidebarProps) => {
+const Sidebar = ({
+  categories,
+  filteredCategories,
+  setFilteredCategories,
+}: SidebarProps) => {
   const [values, setValues] = useState([0, 100]);
 
+  const toggleCategory = (
+    category: string,
+    checked: boolean | "indeterminate"
+  ) => {
+    const isChecked = checked === true;
+
+    const next = isChecked
+      ? filteredCategories.filter((c) => c !== category)
+      : [...filteredCategories, category];
+
+    setFilteredCategories(next);
+  };
+
   const clearFilters = () => {
-    return null;
+    setFilteredCategories([]);
   };
 
   return (
@@ -48,22 +67,27 @@ const Sidebar = ({ categories }: SidebarProps) => {
             Categories
           </h3>
           <div className="space-y-1.5">
-            {categories.map((category) => (
-              <label
-                key={category}
-                htmlFor={category}
-                className="flex cursor-pointer items-center gap-2 rounded-lg px-2 py-1.5 hover:bg-slate-50"
-              >
-                <Checkbox
-                  id={category}
-                  defaultChecked={false}
-                  onCheckedChange={() => {}}
-                />
-                <span className="text-sm text-slate-700 capitalize">
-                  {category}
-                </span>
-              </label>
-            ))}
+            {categories.map((category) => {
+              const isFilteredOut = filteredCategories.includes(category);
+              return (
+                <label
+                  key={category}
+                  htmlFor={category}
+                  className="flex cursor-pointer items-center gap-2 rounded-lg px-2 py-1.5 hover:bg-slate-50"
+                >
+                  <Checkbox
+                    id={category}
+                    checked={!isFilteredOut}
+                    onCheckedChange={(checked) =>
+                      toggleCategory(category, checked)
+                    }
+                  />
+                  <span className="text-sm text-slate-700 capitalize">
+                    {category}
+                  </span>
+                </label>
+              );
+            })}
           </div>
         </section>
       </div>
