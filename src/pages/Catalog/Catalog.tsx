@@ -3,11 +3,13 @@ import ProductsGrid from "./ProductsGrid";
 import CatalogToolbar from "./CatalogToolbarWrapper";
 import SortBy from "./SortBy";
 import SearchInput from "./SearchInput";
-import Filter from "./Filter";
 import { Checkbox } from "@/components/ui/checkbox";
+import { DualRangeSlider } from "@/components/DualRangeSlider";
+import { useState } from "react";
 
 const Catalog = () => {
   const { categories } = useProducts();
+  const [values, setValues] = useState([0, 100]);
 
   return (
     <div>
@@ -16,13 +18,24 @@ const Catalog = () => {
           <SearchInput />
         </div>
         <div className="flex items-center gap-3">
-          <Filter />
           <SortBy />
         </div>
       </CatalogToolbar>
       <div className="flex flex-row">
         <aside className="w-64 shrink-0 p-4">
-          <div className="space-y-3">
+          <div className="space-y-10">
+            <h3 className="text-sm font-semibold text-slate-700">
+              Price range
+            </h3>
+            <DualRangeSlider
+              label={(value) => value}
+              labelPosition="bottom"
+              value={values}
+              onValueChange={setValues}
+              min={0}
+              max={100}
+              step={1}
+            />
             <h3 className="text-sm font-semibold text-slate-700">Categories</h3>
             <div className="space-y-2">
               {categories.map((category) => (
