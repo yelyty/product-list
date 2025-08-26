@@ -1,17 +1,15 @@
 import { Checkbox } from "@/components/ui/checkbox";
 import { DualRangeSlider } from "@/components/DualRangeSlider";
 import { Button } from "@/components/ui/button";
+import { MAX_PRICE, MIN_PRICE } from "@/consts";
 
 type SidebarProps = {
   categories: string[];
   excludedCategories: string[];
   setExcludedCategories: (values: string[]) => void;
-  setPriceRange: (values: number[]) => void;
-  priceRange: number[];
+  setPriceRange: (values: [number, number]) => void;
+  priceRange: [number, number];
 };
-
-const MIN_PRICE = 0;
-const MAX_PRICE = 1000;
 
 const Sidebar = ({
   categories,
@@ -48,7 +46,6 @@ const Sidebar = ({
 
         <div className="h-px bg-slate-100 my-4" />
 
-        {/* Price Range */}
         <section className="space-y-3">
           <h3 className="text-xs font-semibold uppercase tracking-wide text-slate-600">
             Price range
@@ -66,7 +63,6 @@ const Sidebar = ({
 
         <div className="h-px bg-slate-100 my-10" />
 
-        {/* Categories */}
         <section>
           <h3 className="mb-3 text-xs font-semibold uppercase tracking-wide text-slate-600">
             Categories

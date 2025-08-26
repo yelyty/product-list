@@ -1,5 +1,4 @@
 import ProductsGrid from "./ProductsGrid";
-import CatalogToolbar from "./CatalogToolbarWrapper";
 
 import { useProducts } from "@/hooks/useProducts";
 import SearchInput from "@/components/SearchInput";
@@ -8,7 +7,6 @@ import Sidebar from "@/components/Sidebar";
 
 const Catalog = () => {
   const {
-    isLoading,
     products,
     categories,
     searchQuery,
@@ -23,7 +21,10 @@ const Catalog = () => {
 
   return (
     <div className="mx-auto max-w-7xl px-4">
-      <CatalogToolbar>
+      <div
+        className="flex flex-col sm:flex-row sm:items-center sm:justify-between gap-3 
+                    rounded-xl border bg-white px-4 py-4 shadow-sm mb-6"
+      >
         <div className="flex flex-col w-full gap-3 md:flex-row md:items-center">
           <div className="flex-1">
             <SearchInput
@@ -35,7 +36,7 @@ const Catalog = () => {
             <SortBy sortValue={sortValue} setSortValue={setSortValue} />
           </div>
         </div>
-      </CatalogToolbar>
+      </div>
 
       <div className="flex flex-col md:flex-row gap-4">
         <Sidebar
@@ -45,9 +46,9 @@ const Catalog = () => {
           setPriceRange={setPriceRange}
           priceRange={priceRange}
         />
-        <main className="flex-1">
-          <ProductsGrid products={products} isLoading={isLoading} />
-        </main>
+        <section className="flex-1">
+          <ProductsGrid products={products} />
+        </section>
       </div>
     </div>
   );

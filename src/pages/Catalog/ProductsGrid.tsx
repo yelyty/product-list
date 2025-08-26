@@ -2,15 +2,10 @@ import type { Product } from "@/types";
 import ProductCard from "./ProductCard";
 
 type ProductGridProps = {
-  isLoading: boolean;
   products: Product[];
 };
 
-const ProductsGrid = ({ isLoading, products }: ProductGridProps) => {
-  if (isLoading) {
-    return <div>Loading...</div>;
-  }
-
+const ProductsGrid = ({ products }: ProductGridProps) => {
   if (products.length === 0) {
     return (
       <div className="w-full text-center text-gray-500 py-8">

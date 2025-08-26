@@ -1,16 +1,16 @@
 import { useEffect, useMemo, useState } from "react";
 import type { Product, SortValue } from "@/types";
+import { MAX_PRICE, MIN_PRICE } from "@/consts";
+import { filterProduct } from "@/lib/filter-products";
+import { sortProducts } from "@/lib/sort-products-by-price";
 import useDebounce from "./useDebounce";
-
-const MIN_PRICE = 0;
-const MAX_PRICE = 1000;
 
 export function useProducts() {
 	const [isLoading, setIsLoading] = useState<boolean>(false);
 	const [products, setProducts] = useState<Product[]>([]);
 	const [searchQuery, setSearchQuery] = useState<string>("");
 	const [excludedCategories, setExcludedCategories] = useState<string[]>([]);
-	const [priceRange, setPriceRange] = useState([MIN_PRICE, MAX_PRICE]);
+	const [priceRange, setPriceRange] = useState<[number, number]>([MIN_PRICE, MAX_PRICE]);
 
 	const [sortValue, setSortValue] = useState<SortValue>(null);
 
@@ -34,30 +34,11 @@ export function useProducts() {
 
 	const visibleProducts = useMemo(() => {
 		return products
-			.filter((product) => {
-				if (excludedCategories.includes(product.category)) {
-					return false;
-				}
-
-				if (product.price < priceRange[0]) {
-					return false;
-				}
-
-				if (priceRange[1] < product.price) {
-					return false;
-				}
-
-				return product.title
-					.toLowerCase()
-					.includes(debouncedSearch.toLowerCase());
-			})
-			.sort((a, b) => {
-				const x = sortValue === "low-to-high" ? a.price : b.price;
-				const y = sortValue === "low-to-high" ? b.price : a.price;
-
-				return x - y;
-			});
-	}, [debouncedSearch, excludedCategories, priceRange, products, sortValue]);
+			.filter(product =>
+				filterProduct(product, debouncedSearch, excludedCategories, priceRange)
+			)
+			.sort(sortProducts(sortValue));
+	}, [products, debouncedSearch, excludedCategories, priceRange, sortValue]);
 
 	const categories = useMemo(
 		() => Array.from(new Set(products.map((p) => p.category))),
